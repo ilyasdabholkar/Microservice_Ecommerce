@@ -1,12 +1,10 @@
 using AutoMapper;
-using Ecommerce.Services.CouponAPI;
-using Ecommerce.Services.CouponAPI.Data;
-using Ecommerce.Services.CouponAPI.Extensions;
+using Ecommerce.Services.ProductAPI;
+using Ecommerce.Services.ProductAPI.Data;
+using Ecommerce.Services.ProductAPI.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +22,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen(option =>
 {
     option.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
@@ -72,13 +69,14 @@ ApplyMigration();
 
 app.Run();
 
+
 void ApplyMigration()
 {
     using (var scope = app.Services.CreateScope())
     {
         var _db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        if(_db.Database.GetPendingMigrations().Count() > 0)
+        if (_db.Database.GetPendingMigrations().Count() > 0)
         {
             _db.Database.Migrate();
         }

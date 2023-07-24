@@ -2,6 +2,7 @@
 using Ecommerce.Web.Services.IServices;
 using Newtonsoft.Json;
 using System.Net;
+using System.Net.Mime;
 using System.Text;
 using System.Text.Json.Serialization;
 using static Ecommerce.Web.Utility.StaticDetails;
@@ -27,6 +28,7 @@ namespace Ecommerce.Web.Services
                 HttpClient client = _httpClientFactory.CreateClient("EcommerceAPI");
                 HttpRequestMessage message = new();
                 message.Headers.Add("Accept", "application/json");
+ 
 
                 if (withBearer)
                 {

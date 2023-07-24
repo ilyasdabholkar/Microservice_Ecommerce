@@ -13,7 +13,6 @@ namespace Ecommerce.Services.ProductAPI.Controllers
 {
     [Route("api/product")]
     [ApiController]
-    [Authorize]
     public class ProductAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
@@ -61,7 +60,8 @@ namespace Ecommerce.Services.ProductAPI.Controllers
         }
 
         [HttpPost]
-        public ResponseDto Post(ProductDto ProductDto)
+        [Authorize(Roles = StaticDetails.RoleAdmin)]
+        public ResponseDto Post([FromForm] ProductDto ProductDto)
         {
             try
             {
@@ -189,4 +189,3 @@ namespace Ecommerce.Services.ProductAPI.Controllers
 
 }
 
-}

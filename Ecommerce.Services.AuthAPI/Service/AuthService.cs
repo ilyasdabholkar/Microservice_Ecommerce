@@ -26,9 +26,10 @@ namespace Ecommerce.Services.AuthAPI.Service
             var user = _db.ApplicationUsers.First(u => u.Email.ToLower() == email.ToLower());
             if(user != null)
             {
-                if (_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
+                bool roleExists = await _roleManager.RoleExistsAsync(roleName);
+                if (!roleExists)
                 {
-                    _roleManager.CreateAsync(new IdentityRole(roleName)).GetAwaiter().GetResult();
+                    await _roleManager.CreateAsync(new IdentityRole(roleName));
                 }
                 await _userManager.AddToRoleAsync(user,roleName);
                 return true;

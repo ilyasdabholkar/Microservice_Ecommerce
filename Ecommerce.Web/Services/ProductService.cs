@@ -1,33 +1,61 @@
 ﻿using Ecommerce.Web.Models;
 using Ecommerce.Web.Services.IServices;
+using Ecommerce.Web.Utility;
 
 namespace Ecommerce.Web.Services
 {
     public class ProductService : IProductService
     {
-        public Task<ResponseDto?> CreateProductsAsync(ProductDto productDto)
-        {
-            throw new NotImplementedException();
+        private readonly IBaseService _baseService;
+        public ProductService(IBaseService baseService) { 
+         _baseService= baseService;
         }
 
-        public Task<ResponseDto?> DeleteProductsAsync(int id)
+        public async Task<ResponseDto?> CreateProductsAsync(ProductDto productDto)
         {
-            throw new NotImplementedException();
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = StaticDetails.ApiType.POST,
+                Data = productDto,
+                Url = StaticDetails.ProductAPIBase + "/api/product"
+            });
         }
 
-        public Task<ResponseDto?> GetAllProductsAsync()
+        public async Task<ResponseDto?> DeleteProductsAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = StaticDetails.ApiType.DELETE,
+                Url = StaticDetails.ProductAPIBase + "/api/product/" + id
+            });
         }
 
-        public Task<ResponseDto?> GetProductByIdAsync(int id)
+        public async Task<ResponseDto?> GetAllProductsAsync()
         {
-            throw new NotImplementedException();
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = StaticDetails.ApiType.GET,
+                Url = StaticDetails.ProductAPIBase + "/api/product/"
+            });
         }
 
-        public Task<ResponseDto?> UpdateProductsAsync(ProductDto productDto)
+        public async Task<ResponseDto?> GetProductByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = StaticDetails.ApiType.GET,
+                Url = StaticDetails.ProductAPIBase + "/api/product/" + id
+            });
+        }
+
+        public async Task<ResponseDto?> UpdateProductsAsync(ProductDto productDto)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = StaticDetails.ApiType.PUT,
+                Data = productDto,
+                Url = StaticDetails.ProductAPIBase + "/api/product"
+            });
         }
     }
 }
